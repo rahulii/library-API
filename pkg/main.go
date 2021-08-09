@@ -30,10 +30,10 @@ func main() {
 		dbHost = "localhost:3306"
 	}
 
-	dbPass := "password"
-	// if dbPass == "" {
-	// 	dbPass = "admin@1234"
-	// }
+	dbPass := os.Getenv("DB_PASS")
+	 if dbPass == "" {
+	 	dbPass = "password"
+	 }
 
 	apiPath := os.Getenv("API_PATH")
 	if apiPath == "" {
@@ -113,7 +113,7 @@ func (l library) getBooks(w http.ResponseWriter, r *http.Request) {
 }
 
 func (l library) openDbConnection() *sql.DB {
-	db,err:= sql.Open("mysql",fmt.Sprintf("%s:%s@(%s)/%s","newuser",l.dbPass,l.dbHost,l.dbName))
+	db,err:= sql.Open("mysql",fmt.Sprintf("%s:%s@(%s)/%s","root",l.dbPass,l.dbHost,l.dbName))
 	if err!=nil {
 		log.Fatalf("Error:%s",err.Error())
 	}
